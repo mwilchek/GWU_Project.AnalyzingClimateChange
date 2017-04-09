@@ -1,7 +1,6 @@
 ---
 title: "Project_2"
-subtitle: An Exploratory Data Analysis
-author: "Greg Ricalde, Amelia Kelly & Matt Wilchek""
+author: "Greg Ricalde, Amelia Kelly & Matt Wilchek"
 date: "April 8, 2017"
 output:
   ioslides_presentation:
@@ -10,10 +9,19 @@ output:
     transition: slower
     widescreen: yes
 runtime: shiny
+subtitle: An Exploratory Data Analysis
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+# Install necessary packages and include packages.
+library(ggplot2) # for graphing
+library(lattice) # for graphing
+library(car) # for graphing
+library(memisc) # for function case
+library(HistData) # library containing data
+library(grid) # for graphing
+library(rsconnect) # for publishing to Shiny apps
 ```
 
 ## Shiny Presentation
