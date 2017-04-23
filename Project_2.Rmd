@@ -1,6 +1,6 @@
 ---
 title: "Project_2"
-author: "Greg Ricalde"
+author: "Greg Ricalde, Ameila, Matt"
 date: "April 8, 2017"
 output: ioslides_presentation
 runtime: shiny
