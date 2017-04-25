@@ -25,9 +25,25 @@ library(HistData) # library containing data
 library(grid) # for graphing
 library(rsconnect) # for publishing to Shiny apps
 library(RCurl)
-x <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/GlobalTemperatures.csv")
-y <- read.csv(text = x)
-head(y)
+
+# Import Global Temp data
+GlobalTemp_csv <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/GlobalTemperatures.csv")
+GlobalTemp <- read.csv(text = GlobalTemp_csv)
+# Delete unwanted columns
+GlobalTemp$LandAverageTemperatureUncertainty <- GlobalTemp$LandMaxTemperature <-
+GlobalTemp$LandMaxTemperatureUncertainty <- GlobalTemp$LandMinTemperature <-
+GlobalTemp$LandMinTemperatureUncertainty <- GlobalTemp$LandAndOceanAverageTemperature <-
+GlobalTemp$LandAndOceanAverageTemperatureUncertainty <- NULL
+head(GlobalTemp)
+
+# Import City Temp data
+CityTemp_csv <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/GlobalLandTemperaturesByCONUS_City.csv")
+CityTemp <- read.csv(text = CityTemp_csv)
+# Delete unwanted columns
+CityTemp$AverageTemperatureUncertainty <- CityTemp$Country <- NULL
+head(CityTemp)
+View(CityTemp)
+
 
 ```
 
