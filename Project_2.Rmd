@@ -25,6 +25,7 @@ library(rsconnect) # for publishing to Shiny apps
 library(RCurl)
 myfile <- getURL('https://github.com/mwilchek/GWU_Project.AnalyzingClimateChange/blob/master/GlobalTemperatures.csv', ssl.verifyhost=FALSE, ssl.verifypeer=FALSE)
 str(myfile)
+
 ```
 
 ## Shiny Presentation
