@@ -23,8 +23,9 @@ library(HistData) # library containing data
 library(grid) # for graphing
 library(rsconnect) # for publishing to Shiny apps
 library(RCurl)
-myfile <- getURL('https://github.com/mwilchek/GWU_Project.AnalyzingClimateChange/blob/master/GlobalTemperatures.csv', ssl.verifyhost=FALSE, ssl.verifypeer=FALSE)
-str(myfile)
+x <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/GlobalTemperatures.csv")
+y <- read.csv(text = x)
+head(y)
 
 ```
 
