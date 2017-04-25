@@ -1,7 +1,5 @@
 ---
 title: "Project_2"
-author: "Greg Ricalde, Ameila, Matt"
-=======
 author: "Greg Ricalde, Amelia Kelly & Matt Wilchek"
 date: "April 8, 2017"
 output:
@@ -67,4 +65,7 @@ renderPlot({
 summary(cars)
 ```
 
+## GREG IS COOL
+
+# TESTT
 
