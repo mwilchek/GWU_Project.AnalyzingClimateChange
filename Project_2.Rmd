@@ -24,33 +24,35 @@ library(HistData) # library containing data
 library(grid) # for graphing
 library(rsconnect) # for publishing to Shiny apps
 library(RCurl)
+
+# Call data set Change
 x <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/GlobalTemperatures.csv")
-y <- read.csv(text = x)
-head(y)
+glbltemp <- read.csv(text = x)
+head(glbltemp)
 
 ```
 
-### 1. Question
+## Goal (About)
 
-## 2. Current Climate Change Research
+## Research/Background
 
-## 3. Data Gathering, Impute/Prep Methods
+## Data Gathering, Impute/Prep Methods
+```{r echo=TRUE}
+str(glbltemp)
+
+```
+
   
-## 4. Exploratory Data Analysis
+## Exploratory Data Analysis
 
-## 5. Maps
+## Maps
 
-## 6. Climate Change Model
+## Climate Change Model
 
-## 7. Predictions
+## Predictions
 
-## 8. Examples
+## Examples
 
-## Shiny Presentation
-
-This R Markdown presentation is made interactive using Shiny. The viewers of the presentation can change the assumptions underlying what's presented and see the results immediately. 
-
-To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
 
 ## Interactive Plot
 
@@ -71,17 +73,4 @@ renderPlot({
   lines(dens, col = "blue")
 })
 ```
-
-## Bullets
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-## R Output
-
-```{r cars}
-summary(cars)
-```
-
 
