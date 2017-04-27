@@ -1,7 +1,6 @@
 ---
 title: "Project_2"
-author: "Greg Ricalde, Amelia Kelly, Matt Wilchek"
-=======
+=======:
 author: "Greg Ricalde, Amelia Kelly & Matt Wilchek"
 date: "April 8, 2017"
 output:
@@ -30,6 +29,22 @@ y <- read.csv(text = x)
 head(y)
 
 ```
+
+### 1. Question
+
+## 2. Current Climate Change Research
+
+## 3. Data Gathering, Impute/Prep Methods
+  
+## 4. Exploratory Data Analysis
+
+## 5. Maps
+
+## 6. Climate Change Model
+
+## 7. Predictions
+
+## 8. Examples
 
 ## Shiny Presentation
 
