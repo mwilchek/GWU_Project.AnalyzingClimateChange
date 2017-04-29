@@ -1,7 +1,6 @@
 ---
 title: "Project_2"
-author: "Greg Ricalde, Amelia Kelly, Matt Wilchek"
-=======
+=======:
 author: "Greg Ricalde, Amelia Kelly & Matt Wilchek"
 date: "April 8, 2017"
 output:
@@ -26,6 +25,7 @@ library(grid) # for graphing
 library(rsconnect) # for publishing to Shiny apps
 library(RCurl)
 
+<<<<<<< HEAD
 # Import Global Temp data
 GlobalTemp_csv <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/GlobalTemperatures.csv")
 GlobalTemp <- read.csv(text = GlobalTemp_csv)
@@ -44,14 +44,36 @@ CityTemp$AverageTemperatureUncertainty <- CityTemp$Country <- NULL
 head(CityTemp)
 View(CityTemp)
 
+=======
+# Call data set Change
+x <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/GlobalTemperatures.csv")
+glbltemp <- read.csv(text = x)
+head(glbltemp)
 
 ```
 
-## Shiny Presentation
+## Goal (About)
 
-This R Markdown presentation is made interactive using Shiny. The viewers of the presentation can change the assumptions underlying what's presented and see the results immediately. 
+## Research/Background
 
-To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
+## Data Gathering, Impute/Prep Methods
+```{r echo=TRUE}
+str(glbltemp)
+>>>>>>> 3d752288ea70a4b85cef7faa01aada4c84d0723c
+
+```
+
+  
+## Exploratory Data Analysis
+
+## Maps
+
+## Climate Change Model
+
+## Predictions
+
+## Examples
+
 
 ## Interactive Plot
 
@@ -72,17 +94,4 @@ renderPlot({
   lines(dens, col = "blue")
 })
 ```
-
-## Bullets
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-## R Output
-
-```{r cars}
-summary(cars)
-```
-
 
