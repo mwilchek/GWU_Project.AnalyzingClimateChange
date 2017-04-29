@@ -46,8 +46,6 @@ CityTemp <- read.csv(text = CityTemp_csv)
 CityTemp$AverageTemperatureUncertainty <- CityTemp$Country <- NULL
 head(CityTemp)
 tail(CityTemp)
-View(CityTemp)
-
 
 
 ```
@@ -87,6 +85,26 @@ CityTemp <- CityTemp[!(is.na(CityTemp$AverageTemperature)) | !(is.na(CityTemp$Av
 
 
 ## Maps
+```{r}
+#Need more commenst here plz.
+US_City_Simple <- CityTemp
+US_City_Simple$dt<- US_City_Simple$Day<- US_City_Simple$Month <- NULL
+AvgCity <- aggregate(US_City_Simple$AverageTemperature, 
+                     by=list(US_City_Simple$Year, US_City_Simple$City, US_City_Simple$Latitude, US_City_Simple$Longitude), 
+                     FUN=mean)
+
+# Create Avg City by region tables.
+
+US_West <- AvgCity[which(AvgCity =='Phoenix' | AvgCity =='Denver' | AvgCity =='Los Angeles'|
+                           AvgCity =='Seattle' | AvgCity =='Las Vegas'),]
+US_Midwest <- AvgCity[which(AvgCity =='Chicago' | AvgCity =='Omaha' | AvgCity =='Detroit'),]
+US_Northeast <- AvgCity[which(AvgCity =='New York' | AvgCity =='Boston' | AvgCity =='Pittsburgh'),]
+US_South <- AvgCity[which(AvgCity =='Miami' | AvgCity =='Washington' | AvgCity =='Houston'|
+                            AvgCity =='Atlanta'),]
+
+
+```
+
 
 ## Climate Change Model
 
