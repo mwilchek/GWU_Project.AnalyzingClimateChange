@@ -28,7 +28,7 @@ library(visreg) # for linear model
 library(mice) # to impute values
 library(VIM) # to visualize missingness patterns
 
-<<<<<<< HEAD
+
 # Import Global Temp data
 GlobalTemp_csv <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/GlobalTemperatures.csv")
 GlobalTemp <- read.csv(text = GlobalTemp_csv)
@@ -47,7 +47,7 @@ CityTemp$AverageTemperatureUncertainty <- CityTemp$Country <- NULL
 head(CityTemp)
 tail(CityTemp)
 View(CityTemp)
-=======
+
 
 
 ```
@@ -58,13 +58,33 @@ View(CityTemp)
 
 ## Data Gathering, Impute/Prep Methods
 ```{r echo=TRUE}
-str(glbltemp)
->>>>>>> 3d752288ea70a4b85cef7faa01aada4c84d0723c
+
+
 
 ```
 
   
 ## Exploratory Data Analysis
+
+```{r}
+# Look at Summary and Structure of both Global and City files.
+summary(GlobalTemp)
+summary(CityTemp)
+str(GlobalTemp)
+str(CityTemp)
+
+# Look for patterns/causes of missing data for both Global and City files.
+md.pattern(GlobalTemp)
+md.pattern(CityTemp)
+global_aggr = aggr(GlobalTemp, numbers=TRUE, sortVars=TRUE, labels=names(GlobalTemp), 
+                   cex.axis=.7, gap=3, ylab=c("Proportion of missingness","Missingness Pattern"))
+city_aggr = aggr(CityTemp, numbers=TRUE, sortVars=TRUE, labels=names(CityTemp), 
+                   cex.axis=.7, gap=3, ylab=c("Proportion of missingness","Missingness Pattern"))
+
+# We are not running models on cities, so we will not impute missing values; eliminate missing values.
+CityTemp <- CityTemp[!(is.na(CityTemp$AverageTemperature)) | !(is.na(CityTemp$AverageTemperature)),]
+```
+
 
 ## Maps
 
