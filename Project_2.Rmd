@@ -37,13 +37,13 @@ GlobalTemp$LandAndOceanAverageTemperatureUncertainty <- NULL
 head(GlobalTemp)
 
 # Import City Temp data
-CityTemp_csv <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/2GlobalLandTemperaturesByCONUS_City.csv")
+CityTemp_csv <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/US_City.csv")
 CityTemp <- read.csv(text = CityTemp_csv)
 # Delete unwanted columns
 CityTemp$AverageTemperatureUncertainty <- CityTemp$Country <- NULL
 head(CityTemp)
+tail(CityTemp)
 View(CityTemp)
-
 =======
 
 
