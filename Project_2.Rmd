@@ -95,13 +95,13 @@ AvgCity <- aggregate(US_City_Simple$AverageTemperature,
 
 # Create Avg City by region tables.
 
-US_West <- AvgCity[which(AvgCity =='Phoenix' | AvgCity =='Denver' | AvgCity =='Los Angeles'|
-                           AvgCity =='Seattle' | AvgCity =='Las Vegas'),]
-US_Midwest <- AvgCity[which(AvgCity =='Chicago' | AvgCity =='Omaha' | AvgCity =='Detroit'),]
-US_Northeast <- AvgCity[which(AvgCity =='New York' | AvgCity =='Boston' | AvgCity =='Pittsburgh'),]
-US_South <- AvgCity[which(AvgCity =='Miami' | AvgCity =='Washington' | AvgCity =='Houston'|
-                            AvgCity =='Atlanta'),]
-
+US_West <- AvgCity[which(AvgCity$Group.2 =='Phoenix' | AvgCity$Group.2 =='Denver' | AvgCity$Group.2 =='Los Angeles'|
+                           AvgCity$Group.2 =='Seattle' | AvgCity$Group.2 =='Las Vegas'),]
+US_Midwest <- AvgCity[which(AvgCity$Group.2 =='Chicago' | AvgCity$Group.2 =='Omaha' | AvgCity$Group.2 =='Detroit'),]
+US_Northeast <- AvgCity[which(AvgCity$Group.2 =='New York' | AvgCity$Group.2 =='Boston' | 
+                                AvgCity$Group.2 =='Pittsburgh'),]
+US_South <- AvgCity[which(AvgCity$Group.2 =='Miami' | AvgCity$Group.2 =='Washington' | AvgCity$Group.2 =='Houston'|
+                            AvgCity$Group.2 =='Atlanta'),]
 
 ```
 
