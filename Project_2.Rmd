@@ -23,7 +23,10 @@ library(memisc) # for function case
 library(HistData) # library containing data
 library(grid) # for graphing
 library(rsconnect) # for publishing to Shiny apps
-library(RCurl)
+library(RCurl) # for importing data from url
+library(visreg) # for linear model
+library(mice) # to impute values
+library(VIM) # to visualize missingness patterns
 
 <<<<<<< HEAD
 # Import Global Temp data
@@ -33,7 +36,7 @@ GlobalTemp <- read.csv(text = GlobalTemp_csv)
 GlobalTemp$LandAverageTemperatureUncertainty <- GlobalTemp$LandMaxTemperature <-
 GlobalTemp$LandMaxTemperatureUncertainty <- GlobalTemp$LandMinTemperature <-
 GlobalTemp$LandMinTemperatureUncertainty <- GlobalTemp$LandAndOceanAverageTemperature <-
-GlobalTemp$LandAndOceanAverageTemperatureUncertainty <- NULL
+GlobalTemp$LandAndOceanAverageTemperatureUncertainty <- GlobalTemp$dt <- GlobalTemp$Day <- GlobalTemp$Month <- NULL
 head(GlobalTemp)
 
 # Import City Temp data
