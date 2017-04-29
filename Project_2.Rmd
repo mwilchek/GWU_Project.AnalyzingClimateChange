@@ -132,6 +132,14 @@ model_lm2 <- lm(x ~ Group.1, data=AvgGlobal_1850)
 summary(model_lm2)
 
 #LM3
+GlobalTemp_1900 <- GlobalTemp[which(GlobalTemp$Year >= 1900),]
+AvgGlobal_1900 <- aggregate(GlobalTemp_1900$LandAverageTemperature, 
+                            by=list(GlobalTemp_1900$Year), 
+                            FUN=mean)
+qplot(Group.1, x, data=AvgGlobal_1900, main="Global Average Annual Temperature 1900-2013",
+      geom=c("point","smooth"))+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
+model_lm3 <- lm(x ~ Group.1, data=AvgGlobal_1900)
+summary(model_lm3)
 
 ```
 
