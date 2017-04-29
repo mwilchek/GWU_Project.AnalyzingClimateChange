@@ -86,7 +86,7 @@ CityTemp <- CityTemp[!(is.na(CityTemp$AverageTemperature)) | !(is.na(CityTemp$Av
 
 ## Maps
 ```{r}
-#Need more commenst here plz.
+#Need more comments here plz.
 US_City_Simple <- CityTemp
 US_City_Simple$dt<- US_City_Simple$Day<- US_City_Simple$Month <- NULL
 AvgCity <- aggregate(US_City_Simple$AverageTemperature, 
@@ -107,6 +107,34 @@ US_South <- AvgCity[which(AvgCity$Group.2 =='Miami' | AvgCity$Group.2 =='Washing
 
 
 ## Climate Change Model
+
+```{r}
+# Overall
+AvgGlobal <- aggregate(GlobalTemp$LandAverageTemperature, 
+                       by=list(GlobalTemp$Year), 
+                       FUN=mean)
+
+qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2013",
+      geom=c("point","smooth"))+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
+
+model_lm <- lm(x ~ Group.1, data=AvgGlobal)
+summary(model_lm)
+
+# LM2
+
+GlobalTemp_1850 <- GlobalTemp[which(GlobalTemp$Year >= 1850),]
+AvgGlobal_1850 <- aggregate(GlobalTemp_1850$LandAverageTemperature, 
+                       by=list(GlobalTemp_1850$Year), 
+                       FUN=mean)
+qplot(Group.1, x, data=AvgGlobal_1850, main="Global Average Annual Temperature 1850-2013",
+      geom=c("point","smooth"))+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
+model_lm2 <- lm(x ~ Group.1, data=AvgGlobal_1850)
+summary(model_lm2)
+
+#LM3
+
+```
+
 
 ## Predictions
 
