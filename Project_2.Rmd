@@ -86,7 +86,13 @@ CityTemp <- CityTemp[!(is.na(CityTemp$AverageTemperature)) | !(is.na(CityTemp$Av
 
 ## Maps
 ```{r}
+US_MapTest <- US_City_Simple[which(US_City_Simple$Year==2013),]
+AvgUS_MapTest <- aggregate(US_MapTest$AverageTemperature, 
+                     by=list(US_MapTest$Year, US_MapTest$City, US_MapTest$Latitude, US_MapTest$Longitude), 
+                     FUN=mean)
+
 #Need more comments here plz.
+
 US_City_Simple <- CityTemp
 US_City_Simple$dt<- US_City_Simple$Day<- US_City_Simple$Month <- NULL
 AvgCity <- aggregate(US_City_Simple$AverageTemperature, 
@@ -127,7 +133,7 @@ AvgGlobal_1850 <- aggregate(GlobalTemp_1850$LandAverageTemperature,
                        by=list(GlobalTemp_1850$Year), 
                        FUN=mean)
 qplot(Group.1, x, data=AvgGlobal_1850, main="Global Average Annual Temperature 1850-2013",
-      geom=c("point","smooth"))+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
+      xlab="Year", ylab="Degrees (Celius)")+ stat_smooth(method = "lm", col = "blue")+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
 model_lm2 <- lm(x ~ Group.1, data=AvgGlobal_1850)
 summary(model_lm2)
 
@@ -137,7 +143,7 @@ AvgGlobal_1900 <- aggregate(GlobalTemp_1900$LandAverageTemperature,
                             by=list(GlobalTemp_1900$Year), 
                             FUN=mean)
 qplot(Group.1, x, data=AvgGlobal_1900, main="Global Average Annual Temperature 1900-2013",
-      geom=c("point","smooth"))+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
+      xlab="Year", ylab="Degrees (Celius)")+ stat_smooth(method = "lm", col = "blue")+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
 model_lm3 <- lm(x ~ Group.1, data=AvgGlobal_1900)
 summary(model_lm3)
 
@@ -146,9 +152,8 @@ GlobalTemp_1975<- GlobalTemp[which(GlobalTemp$Year >= 1975),]
 AvgGlobal_1975 <- aggregate(GlobalTemp_1975$LandAverageTemperature, 
                             by=list(GlobalTemp_1975$Year), 
                             FUN=mean)
-qplot(Group.1, x, data=AvgGlobal_1975, main="Global Average Annual Temperature 1900-2013",
-      xlab="Year", ylab="Degrees (Celius)",
-      geom=c("point","smooth"))+ stat_smooth(method = "lm", col = "red") + aes(colour = x) + scale_color_gradient(low="blue", high="red")
+qplot(Group.1, x, data=AvgGlobal_1975, main="Global Average Annual Temperature 1975-2013",
+      xlab="Year", ylab="Degrees (Celius)")+ stat_smooth(method = "lm", col = "blue") + aes(colour = x) + scale_color_gradient(low="blue", high="red")
 model_lm4 <- lm(x ~ Group.1, data=AvgGlobal_1975)
 summary(model_lm4)
 
