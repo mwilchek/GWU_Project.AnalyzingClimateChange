@@ -28,6 +28,7 @@ library(visreg) # for linear model
 library(mice) # to impute values
 library(VIM) # to visualize missingness patterns
 library(weathermetrics) # to change from Celsius to Fahrenheit
+library(miniUI) # for interactive Shiny
 
 
 # Import Global Temp data
@@ -63,11 +64,12 @@ tail(CityTemp)
 ```{r echo=TRUE}
 
 
-
 ```
 
   
 ## Exploratory Data Analysis
+
+Examine structure and summary of data
 
 ```{r}
 # Look at Summary and Structure of both Global and City files.
@@ -76,6 +78,9 @@ summary(CityTemp)
 str(GlobalTemp)
 str(CityTemp)
 
+```
+Look for missing data and patterns of missing data.
+```{r}
 # Look for patterns/causes of missing data for both Global and City files.
 md.pattern(GlobalTemp)
 md.pattern(CityTemp)
@@ -88,10 +93,25 @@ city_aggr = aggr(CityTemp, numbers=TRUE, sortVars=TRUE, labels=names(CityTemp),
 CityTemp <- CityTemp[!(is.na(CityTemp$AverageTemperature)) | !(is.na(CityTemp$AverageTemperature)),]
 ```
 
+```{r}
+qplot(LandAverageTemperature, Year, data=GlobalTemp, main="Global Temperature 1753-2013", 
+      xlab="Year", ylab="Degrees (Fahrenheit)",
+      geom=c("point","smooth"))+ aes(colour = Year) + scale_color_gradient(low="blue", high="red")
+
+AvgGlobal <- aggregate(GlobalTemp$LandAverageTemperature, 
+                       by=list(GlobalTemp$Year), 
+                       FUN=mean)
+
+qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2013", 
+      xlab="Year", ylab="Degrees (Fahrenheit)",
+      geom=c("point","smooth"))+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
+
+```
+
 
 ## Maps
 ```{r}
-# Need more comments here plz.
+# Create summary data.
 US_City_Simple <- CityTemp
 US_City_Simple$dt<- US_City_Simple$Day<- US_City_Simple$Month <- NULL
 
@@ -131,18 +151,9 @@ AvgUS_2001_2013 <- aggregate(US_2001_2013$AverageTemperature,
 
 ```{r}
 # Overall
-AvgGlobal <- aggregate(GlobalTemp$LandAverageTemperature, 
-                       by=list(GlobalTemp$Year), 
-                       FUN=mean)
-
-qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2013", 
-      xlab="Year", ylab="Degrees (Celius)",
-      geom=c("point","smooth"))+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
-
-model_lm <- lm(x ~ Group.1, data=AvgGlobal)
-
 qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2013", 
       xlab="Year", ylab="Degrees (Fahrenheit)") + stat_smooth(method = "lm", col = "blue")+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
+model_lm <- lm(x ~ Group.1, data=AvgGlobal)
 
 summary(model_lm)
 
@@ -162,7 +173,7 @@ GlobalTemp_1900 <- GlobalTemp[which(GlobalTemp$Year >= 1900 & GlobalTemp$Year < 
 AvgGlobal_1900 <- aggregate(GlobalTemp_1900$LandAverageTemperature, 
                             by=list(GlobalTemp_1900$Year), 
                             FUN=mean)
-qplot(Group.1, x, data=AvgGlobal_1900, main="Global Average Annual Temperature 1900-2013",
+qplot(Group.1, x, data=AvgGlobal_1900, main="Global Average Annual Temperature 1900-1974",
       xlab="Year", ylab="Degrees (Fahrenheit)")+ stat_smooth(method = "lm", col = "blue")+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
 model_lm3 <- lm(x ~ Group.1, data=AvgGlobal_1900)
 summary(model_lm3)
@@ -203,9 +214,95 @@ fahrenheit.to.celsius (predict(model_lm4, futureyears))
 
 ## Interactive Plot
 
-```{r eruptions}
+#```{r eruptions}
 
 
+lmGadget <- function(data, xvar, yvar) {
+
+  ui <- miniPage(
+    gadgetTitleBar("Interactive lm"),
+    miniContentPanel(
+      fillRow(flex = c(NA, 1),
+        fillCol(width = "100px",
+          selectInput("degree", "Polynomial degree", c(1, 2, 3, 4))
+        ),
+        plotOutput("plot1",
+          height = "100%",
+          click = "plot1_click",
+          brush = brushOpts(
+            id = "plot1_brush"
+          )
+        )
+      )
+    ),
+    miniButtonBlock(
+      actionButton("exclude_toggle", "Toggle points"),
+      actionButton("exclude_reset", "Reset")
+    )
+  )
+
+  server <- function(input, output) {
+    # For storing which rows have been excluded
+    vals <- reactiveValues(
+      keeprows = rep(TRUE, nrow(data))
+    )
+
+    output$plot1 <- renderPlot({
+      req(input$degree)
+      formula <- as.formula(paste0("y ~ poly(x, degree = ", input$degree, ")"))
+
+      # Plot the kept and excluded points as two separate data sets
+      keep    <- data[ vals$keeprows, , drop = FALSE]
+      exclude <- data[!vals$keeprows, , drop = FALSE]
+
+      ggplot(keep, aes_string(xvar, yvar)) +
+        geom_point(size = 3) +
+        geom_smooth(method = lm, formula = formula, fullrange = TRUE, color = "gray50") +
+        geom_point(data = exclude, fill = NA, color = "black", size = 3, alpha = 0.25) +
+        coord_cartesian(xlim = range(data[[xvar]]), ylim = range(data[[yvar]])) +
+        theme_bw(base_size = 14)
+    })
+
+    # Toggle points that are clicked
+    observeEvent(input$plot1_click, {
+      res <- nearPoints(data, input$plot1_click, allRows = TRUE)
+
+      vals$keeprows <- xor(vals$keeprows, res$selected_)
+    })
+
+    # Toggle points that are brushed, when button is clicked
+    observeEvent(input$exclude_toggle, {
+      res <- brushedPoints(data, input$plot1_brush, allRows = TRUE)
+
+      vals$keeprows <- xor(vals$keeprows, res$selected_)
+    })
+
+    # Reset all points
+    observeEvent(input$exclude_reset, {
+      vals$keeprows <- rep(TRUE, nrow(data))
+    })
+
+    # Handle the Done button being pressed.
+    observeEvent(input$done, {
+      # Replace x and y in the formula with the values in xvar and yvar
+      formula <- as.formula(paste0(yvar, " ~ poly(", xvar, ", degree = ", input$degree, ")"))
+      keep_data <- data[vals$keeprows, , drop = FALSE]
+
+      # Return the kept points.
+      stopApp(
+        list(
+          data = keep_data,
+          model = lm(formula, keep_data)
+        )
+      )
+    })
+
+  }
+
+  runGadget(ui, server)
+}
+
+lmGadget(mtcars, "wt", "mpg")
 
 
 
