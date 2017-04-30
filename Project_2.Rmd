@@ -86,28 +86,38 @@ CityTemp <- CityTemp[!(is.na(CityTemp$AverageTemperature)) | !(is.na(CityTemp$Av
 
 ## Maps
 ```{r}
-#Need more comments here plz.
+# Need more comments here plz.
 US_City_Simple <- CityTemp
+US_City_Simple$dt<- US_City_Simple$Day<- US_City_Simple$Month <- NULL
 
-## Map 2013 Setup for Data
+## Map 2013 Setup for Test Data
 US_MapTest <- US_City_Simple[which(US_City_Simple$Year==2013),]
 AvgUS_MapTest <- aggregate(US_MapTest$AverageTemperature, 
                      by=list(US_MapTest$Year, US_MapTest$City, US_MapTest$Latitude, US_MapTest$Longitude), 
                      FUN=mean)
-US_City_Simple$dt<- US_City_Simple$Day<- US_City_Simple$Month <- NULL
-AvgCity <- aggregate(US_City_Simple$AverageTemperature, 
-                     by=list(US_City_Simple$Year, US_City_Simple$City, US_City_Simple$Latitude, US_City_Simple$Longitude), 
+
+
+# Create Avg Temp by TimeFrame tables.
+
+US_1850_1900 <- US_City_Simple[which(US_City_Simple$Year>=1850 & US_City_Simple$Year<=1900),]
+AvgUS_1850_1900 <- aggregate(US_1850_1900$AverageTemperature, 
+                     by=list(US_1850_1900$Year, US_1850_1900$City, US_1850_1900$Latitude, US_1850_1900$Longitude), 
                      FUN=mean)
 
-# Create Avg City by region tables.
-
-US_West <- AvgCity[which(AvgCity$Group.2 =='Phoenix' | AvgCity$Group.2 =='Denver' | AvgCity$Group.2 =='Los Angeles'|
-                           AvgCity$Group.2 =='Seattle' | AvgCity$Group.2 =='Las Vegas'),]
-US_Midwest <- AvgCity[which(AvgCity$Group.2 =='Chicago' | AvgCity$Group.2 =='Omaha' | AvgCity$Group.2 =='Detroit'),]
-US_Northeast <- AvgCity[which(AvgCity$Group.2 =='New York' | AvgCity$Group.2 =='Boston' | 
-                                AvgCity$Group.2 =='Pittsburgh'),]
-US_South <- AvgCity[which(AvgCity$Group.2 =='Miami' | AvgCity$Group.2 =='Washington' | AvgCity$Group.2 =='Houston'|
-                            AvgCity$Group.2 =='Atlanta'),]
+US_1901_1950 <- US_City_Simple[which(US_City_Simple$Year>1900 & US_City_Simple$Year<=1950),]
+AvgUS_1901_1950 <- aggregate(US_1901_1950$AverageTemperature, 
+                     by=list(US_1901_1950$Year, US_1901_1950$City, US_1901_1950$Latitude, US_1901_1950$Longitude), 
+                     FUN=mean)
+  
+US_1951_2000 <- US_City_Simple[which(US_City_Simple$Year>1951 & US_City_Simple$Year<=2000),]
+AvgUS_1951_2000 <- aggregate(US_1951_2000$AverageTemperature, 
+                     by=list(US_1951_2000$Year, US_1951_2000$City, US_1951_2000$Latitude, US_1951_2000$Longitude), 
+                     FUN=mean)
+  
+US_2001_2013 <- US_City_Simple[which(US_City_Simple$Year>2000),]
+AvgUS_2001_2013 <- aggregate(US_2001_2013$AverageTemperature, 
+                     by=list(US_2001_2013$Year, US_2001_2013$City, US_2001_2013$Latitude, US_2001_2013$Longitude), 
+                     FUN=mean)
 
 ```
 
