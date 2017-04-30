@@ -60,25 +60,23 @@ tail(CityTemp)
 
 ## Research/Background
 
-## Data Gathering, Impute/Prep Methods
-```{r echo=TRUE}
-
-
-```
 
   
-## Exploratory Data Analysis
+## Exploratory Data Analysis: Structure and Summary
 
 Examine structure and summary of data
 
 ```{r}
 # Look at Summary and Structure of both Global and City files.
 summary(GlobalTemp)
-summary(CityTemp)
 str(GlobalTemp)
+
+summary(CityTemp)
 str(CityTemp)
 
 ```
+
+## Exploratory Data Analysis: Missing Data
 Look for missing data and patterns of missing data.
 ```{r}
 # Look for patterns/causes of missing data for both Global and City files.
@@ -90,17 +88,19 @@ city_aggr = aggr(CityTemp, numbers=TRUE, sortVars=TRUE, labels=names(CityTemp),
                    cex.axis=.7, gap=3, ylab=c("Proportion of missingness","Missingness Pattern"))
 
 # We are not running models on cities, so we will not impute missing values; eliminate missing values.
+GlobalTemp <- GlobalTemp[!(is.na(GlobalTemp$LandAverageTemperature)) | !(is.na(GlobalTemp$LandAverageTemperature)),]
 CityTemp <- CityTemp[!(is.na(CityTemp$AverageTemperature)) | !(is.na(CityTemp$AverageTemperature)),]
 ```
 
-```{r}
-qplot(LandAverageTemperature, Year, data=GlobalTemp, main="Global Temperature 1753-2013", 
-      xlab="Year", ylab="Degrees (Fahrenheit)",
-      geom=c("point","smooth"))+ aes(colour = Year) + scale_color_gradient(low="blue", high="red")
+## Exploratory Data Analysis: Scatterplot
 
+```{r}
+# Create aggregate global data
 AvgGlobal <- aggregate(GlobalTemp$LandAverageTemperature, 
                        by=list(GlobalTemp$Year), 
                        FUN=mean)
+
+# Plot aggregate global data
 
 qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2013", 
       xlab="Year", ylab="Degrees (Fahrenheit)",
