@@ -1,8 +1,8 @@
 ---
 title: "Project_2"
 =======:
-author: "Greg Ricalde, Amelia Kelly & Matt Wilchek"
-date: "April 8, 2017"
+author: "Amelia Kelly, Greg Ricalde, & Matt Wilchek"
+date: "May 1, 2017"
 output:
   ioslides_presentation:
     css: bulma.css
@@ -140,6 +140,17 @@ qplot(Group.1, x, data=AvgGlobal_1900, main="Global Average Annual Temperature 1
       geom=c("point","smooth"))+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
 model_lm3 <- lm(x ~ Group.1, data=AvgGlobal_1900)
 summary(model_lm3)
+
+#LM4
+GlobalTemp_1975<- GlobalTemp[which(GlobalTemp$Year >= 1975),]
+AvgGlobal_1975 <- aggregate(GlobalTemp_1975$LandAverageTemperature, 
+                            by=list(GlobalTemp_1975$Year), 
+                            FUN=mean)
+qplot(Group.1, x, data=AvgGlobal_1975, main="Global Average Annual Temperature 1900-2013",
+      xlab="Year", ylab="Degrees (Celius)",
+      geom=c("point","smooth"))+ stat_smooth(method = "lm", col = "red") + aes(colour = x) + scale_color_gradient(low="blue", high="red")
+model_lm4 <- lm(x ~ Group.1, data=AvgGlobal_1975)
+summary(model_lm4)
 
 ```
 
