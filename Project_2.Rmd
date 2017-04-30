@@ -86,14 +86,14 @@ CityTemp <- CityTemp[!(is.na(CityTemp$AverageTemperature)) | !(is.na(CityTemp$Av
 
 ## Maps
 ```{r}
+#Need more comments here plz.
+US_City_Simple <- CityTemp
+
+## Map 2013 Setup for Data
 US_MapTest <- US_City_Simple[which(US_City_Simple$Year==2013),]
 AvgUS_MapTest <- aggregate(US_MapTest$AverageTemperature, 
                      by=list(US_MapTest$Year, US_MapTest$City, US_MapTest$Latitude, US_MapTest$Longitude), 
                      FUN=mean)
-
-#Need more comments here plz.
-
-US_City_Simple <- CityTemp
 US_City_Simple$dt<- US_City_Simple$Day<- US_City_Simple$Month <- NULL
 AvgCity <- aggregate(US_City_Simple$AverageTemperature, 
                      by=list(US_City_Simple$Year, US_City_Simple$City, US_City_Simple$Latitude, US_City_Simple$Longitude), 
