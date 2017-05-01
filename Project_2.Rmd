@@ -81,9 +81,9 @@ Look for missing data and patterns of missing data.
 md.pattern(GlobalTemp)
 md.pattern(CityTemp)
 global_aggr = aggr(GlobalTemp, numbers=TRUE, sortVars=TRUE, labels=names(GlobalTemp), 
-                   cex.axis=.7, gap=3, ylab=c("Proportion of missingness","Missingness Pattern"))
+                   cex.axis=.3, gap=3, ylab=c("Proportion of missingness","Missingness Pattern"))
 city_aggr = aggr(CityTemp, numbers=TRUE, sortVars=TRUE, labels=names(CityTemp), 
-                   cex.axis=.7, gap=3, ylab=c("Proportion of missingness","Missingness Pattern"))
+                   cex.axis=.3, gap=3, ylab=c("Proportion of missingness","Missingness Pattern"))
 
 # We are not running models on cities, so we will not impute missing values; eliminate missing values.
 GlobalTemp <- GlobalTemp[!(is.na(GlobalTemp$LandAverageTemperature)) | !(is.na(GlobalTemp$LandAverageTemperature)),]
@@ -192,6 +192,30 @@ summary(model_lm4)
 
 ```
 
+## Model Interpretations
+
+Model 1 (1753 - 2013): Coefficient = 0.008518, Adjusted R2 = 0.385
+
+Model 2 (1850 - 2013): Coefficient = 0.01536, Adjusted R2 = 0.7479
+
+Model 3 (1900 - 1975): Coefficient = 0.01142, Adjusted R2 = 0.3623
+
+Model 4 (1975 - 2013): Coefficient = 0.048966, Adjusted R2 = 0.7813
+
+
+
+```{r}
+# Different summaries of different models
+
+summary(model_lm) # coeff = 8.518e-03, Adj R2 = 0.385
+summary(model_lm2) # coeff = 1.536e-02, Adj R2 = 0.7479
+summary(model_lm3) # coeff = 0.01142, Adj R2 = 0.3623
+summary(model_lm4) # coeff = 0.048966, Adj R2 = 0.7813
+
+
+```
+
+
 
 ## Predictions
 
@@ -211,101 +235,11 @@ Predictions in Celsius:
 fahrenheit.to.celsius (predict(model_lm4, futureyears))
 ```
 
-## Examples
 
 
-## Interactive Plot
+## Interactive Plot {.smaller}
 
-#```{r eruptions}
-
-
-lmGadget <- function(data, xvar, yvar) {
-
-  ui <- miniPage(
-    gadgetTitleBar("Interactive lm"),
-    miniContentPanel(
-      fillRow(flex = c(NA, 1),
-        fillCol(width = "100px",
-          selectInput("degree", "Polynomial degree", c(1, 2, 3, 4))
-        ),
-        plotOutput("plot1",
-          height = "100%",
-          click = "plot1_click",
-          brush = brushOpts(
-            id = "plot1_brush"
-          )
-        )
-      )
-    ),
-    miniButtonBlock(
-      actionButton("exclude_toggle", "Toggle points"),
-      actionButton("exclude_reset", "Reset")
-    )
-  )
-
-  server <- function(input, output) {
-    # For storing which rows have been excluded
-    vals <- reactiveValues(
-      keeprows = rep(TRUE, nrow(data))
-    )
-
-    output$plot1 <- renderPlot({
-      req(input$degree)
-      formula <- as.formula(paste0("y ~ poly(x, degree = ", input$degree, ")"))
-
-      # Plot the kept and excluded points as two separate data sets
-      keep    <- data[ vals$keeprows, , drop = FALSE]
-      exclude <- data[!vals$keeprows, , drop = FALSE]
-
-      ggplot(keep, aes_string(xvar, yvar)) +
-        geom_point(size = 3) +
-        geom_smooth(method = lm, formula = formula, fullrange = TRUE, color = "gray50") +
-        geom_point(data = exclude, fill = NA, color = "black", size = 3, alpha = 0.25) +
-        coord_cartesian(xlim = range(data[[xvar]]), ylim = range(data[[yvar]])) +
-        theme_bw(base_size = 14)
-    })
-
-    # Toggle points that are clicked
-    observeEvent(input$plot1_click, {
-      res <- nearPoints(data, input$plot1_click, allRows = TRUE)
-
-      vals$keeprows <- xor(vals$keeprows, res$selected_)
-    })
-
-    # Toggle points that are brushed, when button is clicked
-    observeEvent(input$exclude_toggle, {
-      res <- brushedPoints(data, input$plot1_brush, allRows = TRUE)
-
-      vals$keeprows <- xor(vals$keeprows, res$selected_)
-    })
-
-    # Reset all points
-    observeEvent(input$exclude_reset, {
-      vals$keeprows <- rep(TRUE, nrow(data))
-    })
-
-    # Handle the Done button being pressed.
-    observeEvent(input$done, {
-      # Replace x and y in the formula with the values in xvar and yvar
-      formula <- as.formula(paste0(yvar, " ~ poly(", xvar, ", degree = ", input$degree, ")"))
-      keep_data <- data[vals$keeprows, , drop = FALSE]
-
-      # Return the kept points.
-      stopApp(
-        list(
-          data = keep_data,
-          model = lm(formula, keep_data)
-        )
-      )
-    })
-
-  }
-
-  runGadget(ui, server)
-}
-
-lmGadget(mtcars, "wt", "mpg")
-
+```{r}
 
 
 ```
