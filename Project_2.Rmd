@@ -79,8 +79,6 @@ tail(CityTemp)
       + The Intergovernmental Panal  on Climate Change (IPCC)
 
 
-
-  
 ## EDA: Structure and Summary
 
 Examine structure and summary of data
@@ -143,8 +141,8 @@ qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2
 
 ```{python}
 import webbrowser
-webbrowser.open("http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b")
 webbrowser.open("http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e")
+webbrowser.open("http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b")
 ```
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
@@ -272,4 +270,9 @@ predict(model_lm4, futureyears)
 fahrenheit.to.celsius (predict(model_lm4, futureyears))
 ```
 
-## Questions?
+## References/Questions?
+- Climate Datasets: Berkeley Earth. University of Berkeley. Website.<a href="http://berkeleyearth.org/">http://berkeleyearth.org/</a>.
+- "A brief history of climate change." BBC News. BBC, 20 Sept. 2013. Web. 01 May 2017.
+- David Archer (2009). The Long Thaw: How Humans Are Changing the Next 100,000 Years of Earth's Climate. Princeton University Press. p. 19. ISBN 978-0-691-13654-7.
+
+<p align="center"><b>You can find all of our data and source code on GitHub here: <a href="https://github.com/mwilchek/GWU_Project.AnalyzingClimateChange">https://github.com/mwilchek/GWU_Project.AnalyzingClimateChange</a></p></b> 
