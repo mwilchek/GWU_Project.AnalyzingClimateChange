@@ -16,20 +16,16 @@ subtitle: An Exploratory Data Analysis
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 # Install necessary packages and include packages.
-library(ggplot2) # for graphing
 library(lattice) # for graphing
-library(car) # for graphing
 library(memisc) # for function case
 library(grid) # for graphing
 library(gridExtra) # for graphing
 library(rsconnect) # for publishing to Shiny apps
 library(RCurl) # for importing data from url
 library(visreg) # for linear model
+library(weathermetrics) # to change from Celsius to Fahrenheit
 library(mice) # to impute values
 library(VIM) # to visualize missingness patterns
-library(weathermetrics) # to change from Celsius to Fahrenheit
-library(miniUI) # for interactive Shiny
-
 
 # Import Global Temp data
 GlobalTemp_csv <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/GlobalTemperatures.csv")
@@ -41,7 +37,6 @@ GlobalTemp$LandMinTemperatureUncertainty <- GlobalTemp$LandAndOceanAverageTemper
 GlobalTemp$LandAndOceanAverageTemperatureUncertainty <- GlobalTemp$dt <- GlobalTemp$Day <- GlobalTemp$Month <- NULL
 # Change to Fahrenheit
 GlobalTemp$LandAverageTemperature <- celsius.to.fahrenheit(GlobalTemp$LandAverageTemperature)
-head(GlobalTemp)
 
 # Import City Temp data
 CityTemp_csv <- getURL("https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/US_City.csv")
@@ -50,8 +45,6 @@ CityTemp <- read.csv(text = CityTemp_csv)
 CityTemp$AverageTemperatureUncertainty <- CityTemp$Country <- NULL
 # Change to Fahrenheit
 CityTemp$AverageTemperature <- celsius.to.fahrenheit(CityTemp$AverageTemperature)
-head(CityTemp)
-tail(CityTemp)
 ```
 
 ## Goal (About)
@@ -102,7 +95,7 @@ Look for missing data and patterns of missing data.
 
 <div><p ><img src='https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/missing_data1.PNG' width="500 height="150  border="1px"></p></div>
 
-```{r, message=FALSE, warning=FALSE, include=FALSE}
+```{r, message=FALSE, warning=FALSE, include=TRUE}
 # Look for patterns/causes of missing data for both Global and City files.
 md.pattern(GlobalTemp)
 md.pattern(CityTemp)
@@ -125,7 +118,7 @@ AvgGlobal <- aggregate(GlobalTemp$LandAverageTemperature,
                        FUN=mean)
 
 # Plot aggregate global data
-
+library(ggplot2)
 qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2013", 
       xlab="Year", ylab="Degrees (Fahrenheit)",
       geom=c("point","smooth"))+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
@@ -139,10 +132,9 @@ qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2
 <p></p>
 <p align="center"><b><i>If the map did not open you can connect to it <a href="http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b">here</a> and <a href="http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e">here</a>.</b></i></p> 
 
-```{python}
-import webbrowser
-webbrowser.open("http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e")
-webbrowser.open("http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b")
+```{r, message=FALSE, warning=FALSE}
+browseURL("http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e#")
+browseURL("http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b")
 ```
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
@@ -257,7 +249,7 @@ summary(model_lm4) # coeff = 0.048966, Adj R2 = 0.7813
 <p align="center"><b>The following are our predictions based on regression of data from 1975-2013 for future years 2017, 2020, 2050, 2100, 2150:</p></b> 
 
 <p><b>Fahrenheit</p></b>
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # Run predictions based on last model
 futureyears <- data.frame(Group.1=c(2017,2020,2050,2100,2150))
 predict(model_lm4, futureyears)
@@ -265,7 +257,7 @@ predict(model_lm4, futureyears)
 ```
 
 <p><b>Celsius</p></b>
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # Convert to Celsius
 fahrenheit.to.celsius (predict(model_lm4, futureyears))
 ```
