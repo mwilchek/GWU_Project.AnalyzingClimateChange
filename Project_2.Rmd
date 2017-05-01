@@ -56,7 +56,28 @@ tail(CityTemp)
 
 ## Goal (About)
 
+> Investigate if a positive relationship exists between temperature and time using the GlobalTemperatures data set from The University of Berkley's Berkley Earth program.
+
+
+> * Hypothesis Statments
+      + Null Hypothesis: There is not an apparent positive relationship between temperature and time.
+      + Alternative Hypothesis: There is a positive relationship between temperature and time.
+
+
+
 ## Research/Background
+
+> * History of Early Climate Change Study
+      + 1896: Swedish chemist Svante Arrhenius stated recent industrial age coal burning could enhance the natural greenhouse effect.  
+      + 1900: Knut Angstrom discovered that CO2 strongly absorbs parts of the infrared spectrum. 
+      + 1938: British engineer Guy Callendar analyses data from 147 weather stations and shows that temperatures had risen over the previous hundred years.
+      + 1955: US researcher Gilbert Plass concludes that doubling CO2 concentrations would increase temperatures by 3-4C.
+
+> * Climate Change Data Resources
+      + The World Bank
+      + National Oceanic and Atmospheric Administration (NOAA)
+      + The Intergovernmental Panal  on Climate Change (IPCC)
+
 
 
   
@@ -121,9 +142,9 @@ qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2
 <p align="center"><b><i>If the map did not open you can connect to it <a href="http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b">here</a> and <a href="http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e">here</a>.</b></i></p> 
 
 ```{python}
-#import webbrowser
-#webbrowser.open("http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b")
-#webbrowser.open("http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e")
+import webbrowser
+webbrowser.open("http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b")
+webbrowser.open("http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e")
 ```
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
