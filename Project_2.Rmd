@@ -108,7 +108,19 @@ qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2
 
 
 ## Maps
-```{r}
+
+<p align="center"><b><i>Upon execution, of this R Shiny application your web browser should have also opened supplemental tabs that included interactive geographic maps that would allow you to explore our data and analysis further.</b></i></p>
+<p></p>
+<p align="center"><b><i>If the map did not open you can connect to it <a href="http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b">here</a> and <a href="http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e">here</a>.</b></i></p>
+
+```{python}
+import webbrowser
+webbrowser.open("http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b")
+webbrowser.open("http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e")
+```
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+
 # Create summary data.
 US_City_Simple <- CityTemp
 US_City_Simple$dt<- NULL
