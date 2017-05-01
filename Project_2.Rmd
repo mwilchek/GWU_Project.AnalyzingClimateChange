@@ -111,7 +111,7 @@ qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2
 ```{r}
 # Create summary data.
 US_City_Simple <- CityTemp
-US_City_Simple$dt<- US_City_Simple$Day<- US_City_Simple$Month <- NULL
+US_City_Simple$dt<- NULL
 
 ## Map 2013 Setup for Test Data
 US_MapTest <- US_City_Simple[which(US_City_Simple$Year==2013),]
