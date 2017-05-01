@@ -8,5 +8,3 @@ Data is hosted in a Google Cloud Platform at the following links:
 - GlobalLandTemerpaturesByState.csv: https://storage.googleapis.com/global_land_temperatures/GlobalLandTemperaturesByState.csv
 - GlobalLandTemerpatures.csv: https://storage.googleapis.com/global_land_temperatures/GlobalTemperatures.csv
 
-<blockquote class="embedly-card"><h4><a href="http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b">null</a></h4><p>null</p></blockquote>
-<script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
