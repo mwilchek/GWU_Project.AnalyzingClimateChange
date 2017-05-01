@@ -7,3 +7,4 @@ Data is hosted in a Google Cloud Platform at the following links:
 - GlobalLandTemerpaturesByMajorCity.csv: https://storage.googleapis.com/global_land_temperatures/GlobalLandTemperaturesByMajorCity.csv
 - GlobalLandTemerpaturesByState.csv: https://storage.googleapis.com/global_land_temperatures/GlobalLandTemperaturesByState.csv
 - GlobalLandTemerpatures.csv: https://storage.googleapis.com/global_land_temperatures/GlobalTemperatures.csv
+
