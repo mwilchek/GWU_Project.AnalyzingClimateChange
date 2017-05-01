@@ -1,5 +1,5 @@
 ---
-title: "Project 2"
+title: "Analyzing Climate Change"
 =======:
 author: "Amelia Kelly, Greg Ricalde, & Matt Wilchek"
 date: "May 1, 2017"
@@ -20,8 +20,8 @@ library(ggplot2) # for graphing
 library(lattice) # for graphing
 library(car) # for graphing
 library(memisc) # for function case
-library(HistData) # library containing data
 library(grid) # for graphing
+library(gridExtra) # for graphing
 library(rsconnect) # for publishing to Shiny apps
 library(RCurl) # for importing data from url
 library(visreg) # for linear model
@@ -64,7 +64,9 @@ tail(CityTemp)
 
 Examine structure and summary of data
 
-```{r}
+<div><p style="float: center;"><img src='https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/structure.PNG'></p>
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
 # Look at Summary and Structure of both Global and City files.
 summary(GlobalTemp)
 str(GlobalTemp)
@@ -76,7 +78,12 @@ str(CityTemp)
 
 ## EDA: Missing Data
 Look for missing data and patterns of missing data.
-```{r}
+
+<div><p style="float: left;"><img src='https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/missing_data2.PNG' width="600 height="150  border="1px"></p></div>
+
+<div><p ><img src='https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/missing_data1.PNG' width="500 height="150  border="1px"></p></div>
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
 # Look for patterns/causes of missing data for both Global and City files.
 md.pattern(GlobalTemp)
 md.pattern(CityTemp)
@@ -92,7 +99,7 @@ CityTemp <- CityTemp[!(is.na(CityTemp$AverageTemperature)) | !(is.na(CityTemp$Av
 
 ## EDA: Scatterplot
 
-```{r}
+```{r, message=FALSE, warning=FALSE, include=TRUE}
 # Create aggregate global data
 AvgGlobal <- aggregate(GlobalTemp$LandAverageTemperature, 
                        by=list(GlobalTemp$Year), 
@@ -114,9 +121,9 @@ qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2
 <p align="center"><b><i>If the map did not open you can connect to it <a href="http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b">here</a> and <a href="http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e">here</a>.</b></i></p> 
 
 ```{python}
-import webbrowser
-webbrowser.open("http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b")
-webbrowser.open("http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e")
+#import webbrowser
+#webbrowser.open("http://www.arcgis.com/apps/View/index.html?appid=a29ddc77e43a4013a982d08d8344cb6b")
+#webbrowser.open("http://www.arcgis.com/apps/StorytellingSwipe/index.html?appid=bd128209373d4b8a850f05310cbe0a6e")
 ```
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
@@ -161,15 +168,15 @@ AvgUS_2001_2013 <- aggregate(US_2001_2013$AverageTemperature,
 ```
 
 
-## Climate Change Model
+## Climate Change Models
 
-```{r}
+<p><b>Looking at Global Average Annual Temperature</p></b>
+
+```{r, message=FALSE, warning=FALSE, include=TRUE}
 # Overall
-qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2013", 
+a <- qplot(Group.1, x, data=AvgGlobal, main="Temperature 1753-2013", 
       xlab="Year", ylab="Degrees (Fahrenheit)") + stat_smooth(method = "lm", col = "blue")+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
-model_lm <- lm(x ~ Group.1, data=AvgGlobal)
 
-summary(model_lm)
 
 # LM2
 
@@ -177,62 +184,60 @@ GlobalTemp_1850 <- GlobalTemp[which(GlobalTemp$Year >= 1850),]
 AvgGlobal_1850 <- aggregate(GlobalTemp_1850$LandAverageTemperature, 
                        by=list(GlobalTemp_1850$Year), 
                        FUN=mean)
-qplot(Group.1, x, data=AvgGlobal_1850, main="Global Average Annual Temperature 1850-2013",
+b <- qplot(Group.1, x, data=AvgGlobal_1850, main="Temperature 1850-2013",
       xlab="Year", ylab="Degrees (Fahrenheit)")+ stat_smooth(method = "lm", col = "blue")+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
-model_lm2 <- lm(x ~ Group.1, data=AvgGlobal_1850)
-summary(model_lm2)
 
 #LM3
 GlobalTemp_1900 <- GlobalTemp[which(GlobalTemp$Year >= 1900 & GlobalTemp$Year < 1975),]
 AvgGlobal_1900 <- aggregate(GlobalTemp_1900$LandAverageTemperature, 
                             by=list(GlobalTemp_1900$Year), 
                             FUN=mean)
-qplot(Group.1, x, data=AvgGlobal_1900, main="Global Average Annual Temperature 1900-1974",
+c <- qplot(Group.1, x, data=AvgGlobal_1900, main="Temperature 1900-1974",
       xlab="Year", ylab="Degrees (Fahrenheit)")+ stat_smooth(method = "lm", col = "blue")+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
-model_lm3 <- lm(x ~ Group.1, data=AvgGlobal_1900)
-summary(model_lm3)
+
 
 #LM4
 GlobalTemp_1975<- GlobalTemp[which(GlobalTemp$Year >= 1975),]
 AvgGlobal_1975 <- aggregate(GlobalTemp_1975$LandAverageTemperature, 
                             by=list(GlobalTemp_1975$Year), 
                             FUN=mean)
-qplot(Group.1, x, data=AvgGlobal_1975, main="Global Average Annual Temperature 1975-2013",
+d <- qplot(Group.1, x, data=AvgGlobal_1975, main="Temperature 1975-2013",
       xlab="Year", ylab="Degrees (Fahrenheit)")+ stat_smooth(method = "lm", col = "blue") + aes(colour = x) + scale_color_gradient(low="blue", high="red")
-model_lm4 <- lm(x ~ Group.1, data=AvgGlobal_1975)
-summary(model_lm4)
+
+grid.newpage()
+pushViewport(viewport(layout = grid.layout(2, 2)))
+vplayout <- function(x, y) viewport(layout.pos.row = x, layout.pos.col = y)
+print(a, vp = vplayout(1, 1)) 
+print(b, vp = vplayout(1, 2))
+print(c, vp = vplayout(2, 1))
+print(d, vp = vplayout(2, 2))
 
 ```
 
 ## Model Interpretations
+<div><p style="float: center;"><img src='https://raw.githubusercontent.com/mwilchek/GWU_Project.AnalyzingClimateChange/master/ModelSummaries.PNG' width="800 height="150  border="1px"></p>
 
-Model 1 (1753 - 2013): Coefficient = 0.008518, Adjusted R2 = 0.385
-
-Model 2 (1850 - 2013): Coefficient = 0.01536, Adjusted R2 = 0.7479
-
-Model 3 (1900 - 1975): Coefficient = 0.01142, Adjusted R2 = 0.3623
-
-Model 4 (1975 - 2013): Coefficient = 0.048966, Adjusted R2 = 0.7813
-
-
-
-```{r}
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
 # Different summaries of different models
 
+model_lm <- lm(x ~ Group.1, data=AvgGlobal)
 summary(model_lm) # coeff = 8.518e-03, Adj R2 = 0.385
+
+model_lm2 <- lm(x ~ Group.1, data=AvgGlobal_1850)
 summary(model_lm2) # coeff = 1.536e-02, Adj R2 = 0.7479
+
+model_lm3 <- lm(x ~ Group.1, data=AvgGlobal_1900)
 summary(model_lm3) # coeff = 0.01142, Adj R2 = 0.3623
+
+model_lm4 <- lm(x ~ Group.1, data=AvgGlobal_1975)
 summary(model_lm4) # coeff = 0.048966, Adj R2 = 0.7813
-
-
 ```
 
+## Predictions/Conclusion
 
+<p align="center"><b>The following are our predictions based on regression of data from 1975-2013 for future years 2017, 2020, 2050, 2100, 2150:</p></b> 
 
-## Predictions
-
-Predictions based on regression of data from 1975-2013 for future years 2017, 2020, 2050, 2100, 2150 in Fahrenheit:
-
+<p><b>Fahrenheit</p></b>
 ```{r}
 # Run predictions based on last model
 futureyears <- data.frame(Group.1=c(2017,2020,2050,2100,2150))
@@ -240,19 +245,10 @@ predict(model_lm4, futureyears)
 
 ```
 
-Predictions in Celsius:
-
+<p><b>Celsius</p></b>
 ```{r}
 # Convert to Celsius
 fahrenheit.to.celsius (predict(model_lm4, futureyears))
 ```
 
-
-
-## Interactive Plot {.smaller}
-
-```{r}
-
-
-```
-
+## Questions?
