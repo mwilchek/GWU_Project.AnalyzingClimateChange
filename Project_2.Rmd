@@ -1,5 +1,5 @@
 ---
-title: "Project_2"
+title: "Project 2"
 =======:
 author: "Amelia Kelly, Greg Ricalde, & Matt Wilchek"
 date: "May 1, 2017"
@@ -52,8 +52,6 @@ CityTemp$AverageTemperatureUncertainty <- CityTemp$Country <- NULL
 CityTemp$AverageTemperature <- celsius.to.fahrenheit(CityTemp$AverageTemperature)
 head(CityTemp)
 tail(CityTemp)
-
-
 ```
 
 ## Goal (About)
@@ -62,7 +60,7 @@ tail(CityTemp)
 
 
   
-## Exploratory Data Analysis: Structure and Summary
+## EDA: Structure and Summary
 
 Examine structure and summary of data
 
@@ -76,7 +74,7 @@ str(CityTemp)
 
 ```
 
-## Exploratory Data Analysis: Missing Data
+## EDA: Missing Data
 Look for missing data and patterns of missing data.
 ```{r}
 # Look for patterns/causes of missing data for both Global and City files.
@@ -92,7 +90,7 @@ GlobalTemp <- GlobalTemp[!(is.na(GlobalTemp$LandAverageTemperature)) | !(is.na(G
 CityTemp <- CityTemp[!(is.na(CityTemp$AverageTemperature)) | !(is.na(CityTemp$AverageTemperature)),]
 ```
 
-## Exploratory Data Analysis: Scatterplot
+## EDA: Scatterplot
 
 ```{r}
 # Create aggregate global data
