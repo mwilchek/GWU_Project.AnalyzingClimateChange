@@ -254,7 +254,9 @@ summary(model_lm4) # coeff = 0.048966, Adj R2 = 0.7813
 # Based on the adjusted R^2 and coeff values model_lm4 was the best.
 
 # 4.	How reliable are your results?
-# Despite, that the time was factored, the results looked alright enough to try and make a prediction based on the data from our 4th model.
+# From R^2 perspective, model 1 has the best result. However, from an interpretation standpoint, the coefficient for time in Model 1 is close to 0 and thus shows just a small rise in temperature. This model does not provide a good fit to recent temperatures while Model 4 does.
+# Comparing model 3 and 4, which deal with the periods 1900-1974 and 1975-present respectively, we notice the coefficient for time changes from 0.015 to 0.049. This suggests that the rate of change is increasing more rapidly than in previous years.
+
 ```
 
 ## Predictions/Conclusion
