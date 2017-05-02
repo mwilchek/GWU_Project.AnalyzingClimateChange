@@ -45,11 +45,15 @@ CityTemp <- read.csv(text = CityTemp_csv)
 CityTemp$AverageTemperatureUncertainty <- CityTemp$Country <- NULL
 # Change to Fahrenheit
 CityTemp$AverageTemperature <- celsius.to.fahrenheit(CityTemp$AverageTemperature)
+
+# Question 1: How did you develop your question and what relevant research has already been completed on this topic?
+# With all the research done on climate change and learning how to perform prediction using linear regression, we were curious if it were possible to predict the pace of global temperature, but first we needed to look at the relationship between temperature and time.
+
 ```
 
 ## Goal (About)
 
-> Investigate if a positive relationship exists between temperature and time using the GlobalTemperatures data set from The University of Berkley's Berkley Earth program.
+> Investigate if a positive relationship exists between temperature and time using the GlobalTemperatures data set from The University of Berkley's Berkley Earth program.And if so, is it possible to predict future temperatures based on the data available.
 
 
 > * Hypothesis Statments
@@ -122,6 +126,9 @@ library(ggplot2)
 qplot(Group.1, x, data=AvgGlobal, main="Global Average Annual Temperature 1753-2013", 
       xlab="Year", ylab="Degrees (Fahrenheit)",
       geom=c("point","smooth"))+ aes(colour = x) + scale_color_gradient(low="blue", high="red")
+
+# 2.	How did you gather and prepare the data for analysis?
+# After looking at what data is available we thought the dataset from the Unievrsity of Berkeley was the most clean. After that, we looked to see what data was missing and used imputation to fill the gaps. Then we subsetted the data by time intervals for our models and a dataset for just the CONUS to explore geographically.
 
 ```
 
@@ -242,6 +249,12 @@ summary(model_lm3) # coeff = 0.01142, Adj R2 = 0.3623
 
 model_lm4 <- lm(x ~ Group.1, data=AvgGlobal_1975)
 summary(model_lm4) # coeff = 0.048966, Adj R2 = 0.7813
+
+# 3.	How did you select and determine the correct regression model to answer your question?
+# Based on the adjusted R^2 and coeff values model_lm4 was the best.
+
+# 4.	How reliable are your results?
+# Despite, that the time was factored, the results looked alright enough to try and make a prediction based on the data from our 4th model.
 ```
 
 ## Predictions/Conclusion
@@ -250,7 +263,9 @@ summary(model_lm4) # coeff = 0.048966, Adj R2 = 0.7813
 
 <p><b>Fahrenheit</p></b>
 ```{r, message=FALSE, warning=FALSE}
+# 5.	What predictions can you make with your model? 
 # Run predictions based on last model
+# Below are our predictions
 futureyears <- data.frame(Group.1=c(2017,2020,2050,2100,2150))
 predict(model_lm4, futureyears)
 
@@ -260,6 +275,11 @@ predict(model_lm4, futureyears)
 ```{r, message=FALSE, warning=FALSE}
 # Convert to Celsius
 fahrenheit.to.celsius (predict(model_lm4, futureyears))
+
+# 6.	What additional information or analysis might improve your model results or work to control limitations?
+# For one, we should have looked at factoring our time coefficient instead of numerical for better results. 
+# We should have also maybe looked at other variables that could have impacted our results, such as pollution footprints. It may be interesting to factor in rate of industrial growth by countries as well. During our background research, there was a lot of evidence that developing countries leave a greater footprint in CO2, which could affect an increased pace of temperature. 
+
 ```
 
 ## References/Questions?
